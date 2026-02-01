@@ -174,6 +174,8 @@ export const chatApi = {
     }
 
     let buffer = '';
+    let currentEventType = 'message';
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -183,14 +185,16 @@ export const chatApi = {
       buffer = lines.pop() || '';
 
       for (const line of lines) {
+        if (line.trim() === '') continue;
+        
         if (line.startsWith('event: ')) {
-          const eventType = line.slice(7);
+          currentEventType = line.slice(7).trim();
           continue;
         }
         if (line.startsWith('data: ')) {
           try {
             const data = JSON.parse(line.slice(6));
-            onChunk(data);
+            onChunk({ ...data, type: currentEventType });
           } catch (e) {
             // Ignore parse errors
           }

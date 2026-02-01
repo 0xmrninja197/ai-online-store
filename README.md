@@ -1,13 +1,33 @@
 # SmartShop AI - E-commerce Platform with AI Assistants
 
+<div align="center">
+  <!-- Interactive Dashboard & Chat Interface -->
+  <img src="images/1.png" alt="Realtime Sales Dashboard" width="45%" style="margin: 5px;" />
+  <img src="images/2.png" alt="Interactive Chart Streaming" width="45%" style="margin: 5px;" />
+  <br/>
+  <!-- AI-Powered Analytics & Search -->
+  <img src="images/3.png" alt="AI Analytics" width="45%" style="margin: 5px;" />
+  <img src="images/4.png" alt="Semantic Search" width="45%" style="margin: 5px;" />
+</div>
+
+<div align="center">
+  <h3>🚀 Real-time Data Streaming & Interactive AI Charts</h3>
+  <p>
+    Experience the next generation of e-commerce admin interfaces. 
+    <b>Ask questions in plain English</b> and watch as complex data transforms into 
+    <b>live, interactive charts</b> right before your eyes.
+  </p>
+</div>
+
 > **Note:** This project is a Proof of Concept (POC) demonstrating advanced AI integration patterns. It serves as a reference implementation for MCP servers, RAG, and streaming UI components. While fully functional, it uses simplified infrastructure (e.g., SQLite) and is not intended for production deployment as-is.
 
 A modern e-commerce platform demonstrating cutting-edge AI technologies:
 
+- 📊 **Interactive Charts Streaming** - Watch datasets render into visualization in real-time
+- ⚡ **Real-time Data** - Live inventory and sales tracking via SSE (Server-Sent Events)
 - 🤖 **LLM Integration** (Gemini/OpenAI) with streaming responses
 - 🔧 **Tool Calling** for real-time data access
 - 🔍 **RAG (Retrieval Augmented Generation)** for semantic product search
-- 📊 **Streaming Charts** rendered in chat responses
 - 🔌 **MCP Servers** (Model Context Protocol) for modular AI tools
 
 ## Architecture

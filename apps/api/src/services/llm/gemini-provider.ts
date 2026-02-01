@@ -72,14 +72,67 @@ export class GeminiProvider implements LLMProvider {
     throw lastError;
   }
 
-  private toGeminiHistory(messages: Message[]): { role: string; parts: { text: string }[] }[] {
-    // Filter out system messages and convert to Gemini format
+  private findToolName(toolCallId: string, messages: Message[]): string {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const msg = messages[i];
+      if (msg.role === 'assistant' && msg.toolCalls) {
+        const toolCall = msg.toolCalls.find((tc) => tc.id === toolCallId);
+        if (toolCall) return toolCall.name;
+      }
+    }
+    return 'unknown_tool';
+  }
+
+  private toGeminiPart(msg: Message, allMessages: Message[]): any[] {
+    const parts: any[] = [];
+    
+    if (msg.role === 'user') {
+      parts.push({ text: msg.content });
+    } else if (msg.role === 'assistant') {
+      if (msg.content) parts.push({ text: msg.content });
+      if (msg.toolCalls) {
+        msg.toolCalls.forEach((tc) => {
+          parts.push({
+            functionCall: {
+              name: tc.name,
+              args: tc.arguments,
+            },
+          });
+        });
+      }
+    } else if (msg.role === 'tool') {
+      const toolName = this.findToolName(msg.toolCallId!, allMessages);
+      let contentJson: Record<string, unknown>;
+      try {
+        contentJson = JSON.parse(msg.content);
+      } catch (e) {
+        contentJson = { result: msg.content };
+      }
+
+      parts.push({
+        functionResponse: {
+          name: toolName,
+          response: contentJson,
+        },
+      });
+    }
+
+    return parts;
+  }
+
+  private toGeminiHistory(messages: Message[]): { role: string; parts: any[] }[] {
     return messages
       .filter((msg) => msg.role !== 'system')
-      .map((msg) => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }],
-      }));
+      .map((msg) => {
+        let role = 'user';
+        if (msg.role === 'assistant') role = 'model';
+        if (msg.role === 'tool') role = 'function';
+        
+        return {
+          role,
+          parts: this.toGeminiPart(msg, messages),
+        };
+      });
   }
 
   private toGeminiTools(tools: Tool[]): GeminiTool[] {
@@ -125,7 +178,10 @@ export class GeminiProvider implements LLMProvider {
 
       console.log(`[Gemini] Starting chat request with model ${this.model}`);
       console.log(`[Gemini] Messages count: ${messages.length}`);
-      console.log(`[Gemini] Last message: ${lastMessage.content.substring(0, 100)}...`);
+      
+      const lastMessageParts = this.toGeminiPart(lastMessage, messages);
+      // Log the content part for debugging
+      console.log(`[Gemini] Last message type: ${lastMessage.role}`);
 
       const model = this.client.getGenerativeModel({
         model: this.model,
@@ -134,7 +190,7 @@ export class GeminiProvider implements LLMProvider {
       });
 
       const chat = model.startChat({ history });
-      const result = await chat.sendMessage(lastMessage.content);
+      const result = await chat.sendMessage(lastMessageParts);
       const response = result.response;
 
       console.log(`[Gemini] Chat request successful`);
@@ -169,9 +225,8 @@ export class GeminiProvider implements LLMProvider {
       const lastMessage = messages[messages.length - 1];
       const history = this.toGeminiHistory(messages.slice(0, -1));
 
-      console.log(`[Gemini] Starting chatStream request with model ${this.model}`);
-      console.log(`[Gemini] Messages count: ${messages.length}`);
-      console.log(`[Gemini] Last message: ${lastMessage.content.substring(0, 100)}...`);
+      const lastMessageParts = this.toGeminiPart(lastMessage, messages);
+      console.log(`[Gemini] Last message type: ${lastMessage.role}`);
 
       const model = this.client.getGenerativeModel({
         model: this.model,
@@ -180,7 +235,7 @@ export class GeminiProvider implements LLMProvider {
       });
 
       const chat = model.startChat({ history });
-      const result = await chat.sendMessageStream(lastMessage.content);
+      const result = await chat.sendMessageStream(lastMessageParts);
 
       console.log(`[Gemini] Stream started successfully`);
 

@@ -453,7 +453,7 @@ function getMySpending(userId: number, days = 30) {
 }
 
 function getSalesDashboard() {
-  return db.prepare(`
+  const metrics = db.prepare(`
     SELECT
       (SELECT COUNT(*) FROM orders) as total_orders,
       (SELECT COALESCE(SUM(total), 0) FROM orders) as total_revenue,
@@ -461,6 +461,14 @@ function getSalesDashboard() {
       (SELECT COUNT(*) FROM products) as total_products,
       (SELECT COUNT(*) FROM products WHERE stock < 10) as low_stock_products
   `).get();
+
+  // Also fetch analytics to provide a chart
+  const analytics = getSalesAnalytics(30, true);
+
+  return {
+    metrics,
+    chart: analytics.chart
+  };
 }
 
 function getSalesAnalytics(days = 30, includeChart = true) {
